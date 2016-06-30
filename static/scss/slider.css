@@ -1,0 +1,141 @@
+@charset "UTF-8";
+* {
+  box-sizing: border-box; }
+
+body, ul, ol, p, dl, dd {
+  margin: 0; }
+
+ol, ul {
+  padding: 0; }
+
+li {
+  list-style: none; }
+
+a {
+  text-decoration: none;
+  color: #333; }
+
+i {
+  font-style: normal; }
+
+h1, h2, h3, h4, h5 {
+  font-weight: normal; }
+
+body {
+  -webkit-user-select: none;
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent; }
+
+body {
+  font: 14px / 1.25 "苹方", Arial, Helvetica, sans-serif; }
+
+.hide {
+  display: none !important; }
+
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both; }
+
+.smallSlider,
+.bigSlider {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative; }
+
+.smallSlider ul,
+.bigSlider ul {
+  width: 100%;
+  overflow: hidden;
+  position: relative; }
+
+.smallSlider ul li,
+.bigSlider ul li {
+  float: left;
+  width: 100%;
+  position: relative; }
+
+/*其他自己定义的样式*/
+.smallSlideOutrer,
+.bigSliderOutter {
+  width: 100%;
+  height: 7.5rem;
+  overflow: hidden; }
+
+.smallSlideOutrer {
+  position: relative; }
+
+.smallSlider img {
+  width: 100%; }
+
+#bigSliderOutter,
+#bigSliderBg {
+  display: none; }
+
+#bigSliderBg {
+  width: 100%;
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  z-index: 99; }
+
+#bigSliderOutter {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  display: none; }
+
+.bigSlider {
+  margin: 10px auto;
+  z-index: 101;
+  overflow: hidden; }
+
+.bigSlider ul li {
+  text-align: center;
+  -webkit-transform: translate3d(0, 0, 0);
+  margin: 0 auto; }
+
+.smallSlider li img,
+.bigSlider li img {
+  max-width: 100%;
+  height: auto; }
+
+.bigSlider li img {
+  vertical-align: middle; }
+
+#bigSliderOutter .btn-x {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 20px;
+  height: 20px;
+  z-index: 999; }
+
+.pic-info {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+      -ms-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  text-align: center;
+  z-index: 999; }
+
+.d-page-slide {
+  overflow: hidden; }
+
+.d-page {
+  position: relative;
+  float: left;
+  width: 100%;
+  height: 1000px; }
+
+/*# sourceMappingURL=slider.css.map */

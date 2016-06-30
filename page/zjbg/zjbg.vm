@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>$!{title}</title>
+	<link rel="stylesheet" href="../../static/scss/zjbg.css">
+	<script>
+		;(function(win, lib) {
+		    var doc = win.document;
+		    var docEl = doc.documentElement;
+		    var dpr = 0;
+		    var tid;
+		    var flexible = lib.flexible || (lib.flexible = {});
+		    var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+		    var devicePixelRatio = win.devicePixelRatio;
+		    if (isIPhone) {
+		        // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+		        if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {                
+		            dpr = 3;
+		        } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+		            dpr = 2;
+		        } else {
+		            dpr = 1;
+		        }
+		    } else {
+		        // 其他设备下，仍旧使用1倍的方案
+		        dpr = 1;
+		    }
+		    //html 设置data-dpr
+		    docEl.setAttribute('data-dpr', dpr);
+		    //把body的fontSize设置为12px,可以直接在css里直接设置body的font-size为12px,设置body的font-size目的是为了消除在html标签上设置了font-size对body里的渲染的影响
+		    if (doc.readyState === 'complete') {
+		        doc.body.style.fontSize = 12 + 'px';
+		    } else {
+		        doc.addEventListener('DOMContentLoaded', function( ) {
+		            doc.body.style.fontSize = 12 + 'px';
+		        }, false);
+		    }
+		 
+		    function refreshRem(){
+		        var width = docEl.getBoundingClientRect().width;
+		        var rem = width / 10;
+		        //iPhone4，5是32px，iPhone6是37.5px，iPhone6 Plus 是41.4px
+		        docEl.style.fontSize = rem + 'px';
+		        flexible.rem = win.rem = rem;
+		    }
+		    var evt = "onorientationchange" in window ? "orientationchange" : "resize"
+		    win.addEventListener(evt, function() {
+		        clearTimeout(tid);
+		        tid = setTimeout(refreshRem, 300);
+		    }, false);
+		    win.addEventListener('pageshow', function(e) {
+		        if (e.persisted) {
+		            clearTimeout(tid);
+		            tid = setTimeout(refreshRem, 300);
+		        }
+		    }, false);
+		    
+		    //初始化rem
+		    refreshRem();
+		 
+		    flexible.dpr = win.dpr = dpr;
+		    flexible.refreshRem = refreshRem;
+		    flexible.rem2px = function(d) {
+		        var val = parseFloat(d) * this.rem;
+		        if (typeof d === 'string' && d.match(/rem$/)) {
+		            val += 'px';
+		        }
+		        return val;
+		    }
+		    flexible.px2rem = function(d) {
+		        var val = parseFloat(d) / this.rem;
+		        if (typeof d === 'string' && d.match(/px$/)) {
+		            val += 'rem';
+		        }
+		        return val;
+		    }
+		 
+		})(window, window['lib'] || (window['lib'] = {}));
+	</script>
+</head>
+<body>
+	#set($paramMap = $infoModel.viewParaMap)
+	<div id="zjwrap">
+		<div class="sec-zjs">
+			<img src="$!{paramMap.inspectorInfo.logo}" alt="">
+			<dl>
+				<dt class="zjs-name">$paramMap.inspectorInfo.name</dt>
+				<dd class="zjs-title"><i class="icon-jin"></i>$paramMap.inspectorInfo.title</dd>
+			</dl>
+		</div>
+		<div class="line"></div>
+		<p class="sec-zjspj"><span class="tag">整体评估</span>${paramMap.waiguanchengse}，${paramMap.pingmuchengse}，硬件功能正常，${paramMap.baoxiuqi}。整机评估成色${paramMap.oldlevel}，#if(${paramMap.oldlevel}=="99新")外观完美，推荐购买#elseif(${paramMap.oldlevel}=="9成新")推荐购买#else极具性价比。#end</p>
+		<div class="line"></div>
+		<div class="sec-zjbg">
+			<div class="inner">
+				<p class="subtt">基础参数</p>
+				<table>
+					<tr>
+						<td>产品名称</td>
+						<td>$!{paramMap.xinghao}</td>
+					</tr>
+					<tr>
+						<td>颜色</td>
+						<td>$!{paramMap.jishenyanse}</td>
+					</tr>
+					<tr>
+						<td>容量</td>
+						<td>$!{paramMap.shoujineicun}</td>
+					</tr>
+					<tr>
+						<td>支持网络</td>
+						<td>$!{paramMap.yunyingshang}</td>
+					</tr>
+					<tr>
+						<td>销售地</td>
+						<td>$!{paramMap.shoujibanben}</td>
+					</tr>
+					<tr>
+						<td>版本型号</td>
+						<td>$!{paramMap.banbenxinghao}</td>
+					</tr>
+					<tr>
+						<td>IMEI</td>
+						<td>$!{paramMap.shebeiimeihao}</td>
+					</tr>
+					<tr>
+						<td>iOS版本</td>
+						<td>$!{paramMap.iosbanben}</td>
+					</tr>
+					<tr>
+						<td>保修情况</td>
+						<td>$!{paramMap.baoxiuqi}</td>
+					</tr>
+					<tr>
+						<td>激活时间</td>
+						<td>$!{paramMap.jihuoshijian}</td>
+					</tr>
+					<tr>
+						<td>账号</td>
+						<td>正常使用</td>
+					</tr>
+					<tr>
+						<td>维修历史</td>
+						<td>无维修</td>
+					</tr>
+					<tr>
+						<td>其他</td>
+						<td></td>
+					</tr>
+				</table>
+				<p class="subtt">外观检测</p> 
+				<table>
+					#foreach($item in $paramMap.shoujiCheckItem)
+					<tr>
+						<td>$!{item.name}</td>
+						<td>$!{item.errorInfo}</td>
+					</tr>
+					#end
+				</table>
+				<p class="subtt">功能检测</p>
+				<ul class="function-list">
+					## icon-dash 
+					<li>照相机<i class="icon-checkbg"></i></li>
+					<li>静音键<i class="icon-checkbg"></i></li>
+					<li>扬声器<i class="icon-checkbg"></i></li>
+					<li>电源键<i class="icon-checkbg"></i></li>
+					#if($!{paramMap.batteryStatus}=="0")
+					<li>电池<i class="icon-warnbg"></i></li>
+					#else
+					<li>电池<i class="icon-checkbg"></i></li>
+					#end
+					<li>音量键<i class="icon-checkbg"></i></li>
+					#if($!{paramMap.shoujiPara.finger}=="true")
+					<li>指纹识别<i class="icon-checkbg"></i></li>
+					#else
+					<li>指纹识别<i class="icon-dash"></i></li>
+					#end
+					<li>USB功能<i class="icon-checkbg"></i></li>
+					<li>WIFI功能<i class="icon-checkbg"></i></li>
+					<li>耳机接口<i class="icon-checkbg"></i></li>
+					<li>GPS功能<i class="icon-checkbg"></i></li>
+					<li>振动<i class="icon-checkbg"></i></li>
+					<li>蓝牙功能<i class="icon-checkbg"></i></li>
+					<li>距离感应<i class="icon-checkbg"></i></li>
+					<li>电子罗盘<i class="icon-checkbg"></i></li>
+					<li>光线感应<i class="icon-checkbg"></i></li>
+					<li>陀螺仪<i class="icon-checkbg"></i></li>
+				</ul>
+				<ul class="function-legend">
+					<li><i class="icon-dash"></i>无此配置</li>
+					<li><i class="icon-checkbg"></i>配置正常</li>
+					<li><i class="icon-warnbg"></i>维修</li>
+				</ul>
+				#if($!{paramMap.batteryStatus} == "0")
+				<p class="battery-warn"><strong>非原装电池</strong>——原电池使用时间过长致续航能力过低影响使用，经沟通由卖家自行更换新电池。复检后符合安全及质量标准，准许寄卖。</p>
+				#end
+			</div>
+		</div>
+		<div class="line"></div>
+		<div class="sec-msqk">
+			<p class="subtt2">外观细节</p>
+			<div class="ms-map-bg">
+				<ul class="ms-map">
+					#foreach($item in $paramMap.shoujiCheckItem)
+						#if(!$item.isError)
+						<li><i class="num icon-wh">$velocityCount</i>$item.desc</li>
+						#else
+						<li><i class="num icon-yc">$velocityCount</i>$item.desc</li>
+						#end
+					#end
+				</ul>
+			</div>
+			<ul class="ms-map-legend">
+				<li><i class="icon-wh"></i>完好</li>
+				<li><i class="icon-yc"></i>异常</li>
+			</ul>
+			<ul class="ms-pic-list">
+				<li>
+					<div class="imgw" style="background-image: url(http://pic5.58cdn.com.cn/bidding/big/n_v1bl2lwxudojcvp3mlbzza_9808483effd61662.jpg?w=400&h=300);"></div>
+					<p class="desc">
+						<span class="c-wh">背部完好</span>
+						<span class="picnum">1图</span>
+					</p>
+				</li>
+				<li>
+					<div class="imgw" style="background-image: url(http://pic5.58cdn.com.cn/bidding/big/n_v1bl2lwxudojcvp3mlbzza_9808483effd61662.jpg?w=400&h=300);"></div>
+					<p class="desc">
+						<span class="c-yc">背部完好</span>
+						<span class="picnum">1图</span>
+					</p>
+				</li>
+				<li>
+					<div class="imgw" style="background-image: url(http://pic5.58cdn.com.cn/bidding/big/n_v1bl2lwxudojcvp3mlbzza_9808483effd61662.jpg?w=400&h=300);"></div>
+					<p class="desc">
+						<span class="c-wh">背部完好</span>
+						<span class="picnum">1图</span>
+					</p>
+				</li>
+				<li>
+					<div class="imgw" style="background-image: url(http://pic5.58cdn.com.cn/bidding/big/n_v1bl2lwxudojcvp3mlbzza_9808483effd61662.jpg?w=400&h=300);"></div>
+					<p class="desc">
+						<span class="c-wh">背部完好</span>
+						<span class="picnum">1图</span>
+					</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

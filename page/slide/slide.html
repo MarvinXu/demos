@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Slider</title>
+	<script>
+		;(function(win, lib) {
+		    var doc = win.document;
+		    var docEl = doc.documentElement;
+		    var dpr = 0;
+		    var tid;
+		    var flexible = lib.flexible || (lib.flexible = {});
+		    var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+		    var devicePixelRatio = win.devicePixelRatio;
+		    if (isIPhone) {
+		        // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+		        if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {                
+		            dpr = 3;
+		        } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+		            dpr = 2;
+		        } else {
+		            dpr = 1;
+		        }
+		    } else {
+		        // 其他设备下，仍旧使用1倍的方案
+		        dpr = 1;
+		    }
+		    //html 设置data-dpr
+		    docEl.setAttribute('data-dpr', dpr);
+		    //把body的fontSize设置为12px,可以直接在css里直接设置body的font-size为12px,设置body的font-size目的是为了消除在html标签上设置了font-size对body里的渲染的影响
+		    if (doc.readyState === 'complete') {
+		        doc.body.style.fontSize = 12 + 'px';
+		    } else {
+		        doc.addEventListener('DOMContentLoaded', function( ) {
+		            doc.body.style.fontSize = 12 + 'px';
+		        }, false);
+		    }
+		 
+		    function refreshRem(){
+		        var width = docEl.getBoundingClientRect().width;
+		        var rem = width / 10;
+		        //iPhone4，5是32px，iPhone6是37.5px，iPhone6 Plus 是41.4px
+		        docEl.style.fontSize = rem + 'px';
+		        flexible.rem = win.rem = rem;
+		    }
+		    var evt = "onorientationchange" in window ? "orientationchange" : "resize"
+		    win.addEventListener(evt, function() {
+		        clearTimeout(tid);
+		        tid = setTimeout(refreshRem, 300);
+		    }, false);
+		    win.addEventListener('pageshow', function(e) {
+		        if (e.persisted) {
+		            clearTimeout(tid);
+		            tid = setTimeout(refreshRem, 300);
+		        }
+		    }, false);
+		    
+		    //初始化rem
+		    refreshRem();
+		 
+		    flexible.dpr = win.dpr = dpr;
+		    flexible.refreshRem = refreshRem;
+		    flexible.rem2px = function(d) {
+		        var val = parseFloat(d) * this.rem;
+		        if (typeof d === 'string' && d.match(/rem$/)) {
+		            val += 'px';
+		        }
+		        return val;
+		    }
+		    flexible.px2rem = function(d) {
+		        var val = parseFloat(d) / this.rem;
+		        if (typeof d === 'string' && d.match(/px$/)) {
+		            val += 'rem';
+		        }
+		        return val;
+		    }
+		 
+		})(window, window['lib'] || (window['lib'] = {}));
+	</script>
+	<link rel="stylesheet" href="../../static/scss/slider.css">
+</head>
+<body style="height:1000px">
+	<div class="d-page-slide-wrap">
+		<div class="d-page-slide">
+			<div class="d-page">
+				<!-- 小幻灯片开始 -->
+				<div class="smallSlideOutrer">
+				    <div class="smallSlider">
+				        <ul>
+				            <li>
+				                <img src="http://img.58cdn.com.cn/ui7/youpin/img/noimg.png" ref="http://pic5.58cdn.com.cn/bidding/big/n_v1bl2lwkjfmj7fnj6ipiva_8024e0290b13ddc6.png?w=640&h=480">
+				            </li>
+				            <li>
+				                <img src="http://img.58cdn.com.cn/ui7/youpin/img/noimg.png" ref="http://pic.58.com/bidding/big/n_v1bl2lwtn5jrpfpxqxo43a_a28b059214263660.png?w=640&h=480">
+				            </li>
+				            <li>
+				                <img src="http://img.58cdn.com.cn/ui7/youpin/img/noimg.png" ref="http://pic3.58cdn.com.cn/bidding/big/n_v1bj3gzsd6ojcvpbgypjsa_cf9d8bfc49faf0fa.jpg?w=640&h=480">
+				            </li>
+				        </ul>
+				    </div>
+				    <!--小幻灯片计数器 -->
+				    <div class="imgNum"><span class="curr_img">1</span>/3</div>
+				</div>
+				<!-- 小幻灯片结束 -->
+				<!-- 大幻灯片开始 -->
+				<div id="bigSliderBg"></div>
+				<div id="bigSliderOutter">
+				    <div class="bigSlider">
+				        <ul>
+				            <li>
+				                <img src="http://img.58cdn.com.cn/ui7/youpin/img/noimg.png" ref="http://pic5.58cdn.com.cn/bidding/big/n_v1bl2lwkjfmj7fnj6ipiva_8024e0290b13ddc6.png?w=640&h=480">
+				            </li>
+				            <li>
+				                <img src="http://img.58cdn.com.cn/ui7/youpin/img/noimg.png" ref="http://pic.58.com/bidding/big/n_v1bl2lwtn5jrpfpxqxo43a_a28b059214263660.png?w=640&h=480">
+				            </li>
+				            <li>
+				                <img src="http://img.58cdn.com.cn/ui7/youpin/img/noimg.png" ref="http://pic3.58cdn.com.cn/bidding/big/n_v1bj3gzsd6ojcvpbgypjsa_cf9d8bfc49faf0fa.jpg?w=640&h=480">
+				            </li>
+				        </ul>
+				    </div>
+				    <div class="pic-info">
+				    	<p class="title">背部情况</p>
+				    	<p class="imgNum">1/13</p>
+				    </div>
+				    <div class="btn-x">x</div>
+				</div>
+			</div>
+			<div class="d-page"></div>
+		</div>
+	</div>
+	
+	<script src="../../static/js/lib/esl_zepto.min.js"></script>
+	<script>
+		require(["../common/swipe"],function(Swipe){
+			new Swipe($('.d-page-slide-wrap').get(0), {
+			    startSlide: 0,
+			    speed: 400,
+			    auto: 5000,
+			    continuous: true,
+			    autoRestart: true,
+			    disableScroll: true,
+			    callback: function(index, elem) {
+			        // $('.comment-slider-wrap .indicator li').eq(index).addClass('active').siblings().removeClass('active');
+			    },
+			    tapCallback: function(index, elem, event) {
+			    //当每一个幻灯片li点击时，需要做的事情，elem是li，如果没有点击时的需求，不需要这个参数
+			    }
+			});
+		});
+		require(["dualSlide"],function(DualSlide){
+			//adjustImgSize方法自己根据业务需要来实现，不是必须的
+			function adjustImgSize($img) {
+			    var smallSlider = $('.smallSlider');
+			    var width = smallSlider.width(),
+			        height = smallSlider.height();
+			    var oriImgWidth = $img.data('oriwidth'),
+			        oriImgHeight = $img.data('oriheight');
+			 
+			    var imgW = width,
+			        imgH;
+			    imgH = height / width * oriImgWidth;
+			    if (imgH > height) {
+			        //定位图片到窗口中间
+			        var y = -(imgH - height) / 2;
+			        $img.css({
+			            "margin-top": y + 'px'
+			        })
+			 
+			    }
+			 
+			}
+			 
+			//初始化工作
+			 
+			var winHeight = $(window).height();
+			var bodyHeight = $('body').height();
+			 
+			var conf = {
+			    'smallSlideContainer': '.smallSlider',
+			    'bigSlideContainer': '.bigSlider',
+			    'smallIndicator': '.smallSlideOutrer .curr_img',
+			    'bigIndicator': '.bigimg_topbar .curr_img',
+			    'bigSlideClickBack': false,
+			    'btnClickBack': '#bigSliderOutter .btn-x',
+			    'bigSlideMask': '#bigSliderBg',
+			    'bigContainer': '#bigSliderOutter',
+			    'smallImgloadCallback': function($img) {
+			        //这个callback是根据自己产品的需要做，这里只是拿m的二手房举个例子，不要照抄
+			        // adjustImgSize($img);
+			 
+			    },
+			    'bigImgloadCallback': function($img) {
+			        var oriImgWidth = $img.data('oriwidth'),
+			            oriImgHeight = $img.data('oriheight');
+			 
+			        var imgW = $(window).width();
+			        var imgH = oriImgHeight / oriImgWidth * imgW;
+			        if (imgH < winHeight) {
+			            //定位图片到窗口中间
+			            var y = (winHeight - imgH) / 2;
+			            $img.css({
+			                "margin-top": y + 'px'
+			            })
+			        }
+			    }
+			};
+
+			new DualSlide(conf).init();
+		})
+	</script>
+</body>
+</html>
